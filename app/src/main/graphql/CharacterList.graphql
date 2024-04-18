@@ -1,0 +1,28 @@
+query CharacterList($page: Int) {
+    characters(page: $page) {
+       info {
+           ...info
+       }
+        results {
+            ...character
+        }
+    }
+}
+
+fragment info on Info {
+    count
+    pages
+    next
+    prev
+}
+
+fragment character on Character {
+    id
+    name
+    status
+    location {
+        id
+        name
+    }
+    image
+}

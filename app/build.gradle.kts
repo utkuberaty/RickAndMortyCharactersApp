@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.apollo)
 }
 
 android {
@@ -49,16 +50,35 @@ android {
     }
 }
 
-dependencies {
+apollo {
+    service("service") {
+        packageName.set("com.utku.rickandmortycharacters")
+        introspection {
+            endpointUrl.set("https://rickandmortyapi.com/graphql")
+            schemaFile.set(file("src/main/graphql/schema.graphqls"))
+        }
+    }
+}
 
+dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    //Apollo
+    implementation(libs.apollo.runtime)
+    implementation(libs.apollo.http.cahce)
+    implementation(libs.apollo.normalized.cache)
+    implementation(libs.apollo.normalized.cache.sqlite)
+
+    //Koin
+    implementation(libs.koin.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

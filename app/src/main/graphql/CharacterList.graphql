@@ -1,4 +1,4 @@
-query CharacterList($page: Int) {
+query CharacterList($page: Int!) {
     characters(page: $page) {
        info {
            ...info

@@ -19,6 +19,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        buildConfigField("String", "BASE_URL", "\"https://rickandmortyapi.com/graphql\"")
     }
 
     buildTypes {
@@ -39,6 +40,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -70,12 +72,14 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+//    implementation(libs.androidx.paging.compose)
 
     //Apollo
     implementation(libs.apollo.runtime)
     implementation(libs.apollo.http.cahce)
     implementation(libs.apollo.normalized.cache)
     implementation(libs.apollo.normalized.cache.sqlite)
+    implementation(libs.apollo.android.compose.paging)
 
     //Koin
     implementation(libs.koin.compose)

@@ -1,6 +1,8 @@
 package com.utku.rickandmortycharacters
 
 import android.app.Application
+import com.utku.rickandmortycharacters.di.networkModule
+import com.utku.rickandmortycharacters.di.repositoryModule
 import com.utku.rickandmortycharacters.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -12,7 +14,7 @@ class App: Application() {
         startKoin {
             androidLogger()
             androidContext(this@App)
-            modules(viewModelModule)
+            modules(networkModule, repositoryModule, viewModelModule)
         }
     }
 }

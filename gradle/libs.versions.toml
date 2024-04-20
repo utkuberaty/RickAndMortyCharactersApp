@@ -1,6 +1,7 @@
 [versions]
 apollo3 = "3.8.3"
 agp = "8.3.2"
+coil = "2.6.0"
 kotlin = "1.9.0"
 koin-compose = "3.5.6"
 coreKtx = "1.13.0"
@@ -28,7 +29,6 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 
 #Apollo
 apollo-runtime = { group = "com.apollographql.apollo3", name = "apollo-runtime", version.ref = "apollo3" }
@@ -36,6 +36,9 @@ apollo-http-cahce = { group = "com.apollographql.apollo3", name = "apollo-http-c
 apollo-normalized-cache = { group = "com.apollographql.apollo3", name = "apollo-normalized-cache", version.ref = "apollo3" }
 apollo-normalized-cache-sqlite = { group = "com.apollographql.apollo3", name = "apollo-normalized-cache-sqlite", version.ref = "apollo3" }
 apollo-android-compose-paging = { group = "com.apollographql.apollo3", name = "apollo-compose-paging-support", version.ref = "apollo3" }
+
+#Coil
+coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 
 #Koin
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin-compose" }

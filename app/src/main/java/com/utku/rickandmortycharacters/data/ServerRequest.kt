@@ -9,6 +9,6 @@ class ServerRequest(private val apolloClient: ApolloClient) {
 
     fun getCharacterList(page: Int = 1) = apolloClient.query(
         CharacterListQuery(page)
-    ).fetchPolicy(FetchPolicy.NetworkOnly)
+    ).fetchPolicy(FetchPolicy.CacheAndNetwork)
 
 }

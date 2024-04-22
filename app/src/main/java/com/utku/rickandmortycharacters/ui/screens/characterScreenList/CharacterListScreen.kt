@@ -25,6 +25,7 @@ import com.utku.rickandmortycharacters.fragment.Character
 import com.utku.rickandmortycharacters.ui.components.swipeableCard.GenericLazyCardStack
 import com.utku.rickandmortycharacters.ui.theme.BlueLagoon
 import com.utku.rickandmortycharacters.ui.theme.BrightSun
+import com.utku.rickandmortycharacters.ui.theme.Malachite
 import org.koin.compose.koinInject
 
 @Composable
@@ -56,7 +57,7 @@ fun CharacterListScreen(
     ) {
         Card(
             modifier = Modifier.align(Alignment.Center),
-            colors = CardDefaults.cardColors().copy(containerColor = BlueLagoon)
+            colors = CardDefaults.cardColors().copy(containerColor = Malachite)
         ) {
             Column(
                 modifier = Modifier,

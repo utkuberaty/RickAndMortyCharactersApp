@@ -24,7 +24,7 @@ class CharacterListViewModel(
     @OptIn(ApolloExperimental::class)
     private fun createCharacterListPager(): Pager<ApolloCall<CharacterListQuery.Data>, Character> {
         return Pager(
-            config = PagingConfig(pageSize = 20),
+            config = PagingConfig(pageSize = 10),
             appendCall = { response, _ ->
                 val hasNextPage = response?.data?.characters?.info?.info?.next != null
                 if (response != null && !hasNextPage) {

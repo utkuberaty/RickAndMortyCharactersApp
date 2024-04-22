@@ -3,6 +3,7 @@ package com.utku.rickandmortycharacters.di
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.CompiledField
 import com.apollographql.apollo3.api.Executable
+import com.apollographql.apollo3.api.http.HttpMethod
 import com.apollographql.apollo3.cache.normalized.api.CacheKey
 import com.apollographql.apollo3.cache.normalized.api.CacheKeyGenerator
 import com.apollographql.apollo3.cache.normalized.api.CacheKeyGeneratorContext

@@ -14,7 +14,7 @@ import com.utku.rickandmortycharacters.fragment.Character
 
 
 class CharacterListViewModel(
-    private val characterRepositoryIMp: CharacterRepositoryImp
+    private val characterRepositoryImp: CharacterRepositoryImp
 ) : ViewModel() {
 
     val pagingDataflow = createCharacterListPager()
@@ -31,7 +31,7 @@ class CharacterListViewModel(
                     // Reached the end of the list
                     return@Pager null
                 }
-                characterRepositoryIMp.getCharacters(
+                characterRepositoryImp.getCharacters(
                     response?.data?.characters?.info?.info?.next ?: 1
                 )
             },

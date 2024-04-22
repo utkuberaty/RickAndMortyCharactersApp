@@ -14,22 +14,20 @@ import com.apollographql.apollo3.cache.normalized.normalizedCache
 import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.apollographql.apollo3.network.okHttpClient
 import com.utku.rickandmortycharacters.BuildConfig
-import com.utku.rickandmortycharacters.data.CharacterRepository
-import com.utku.rickandmortycharacters.data.ServerRequest
+import com.utku.rickandmortycharacters.data.CharacterRepositoryImp
 import com.utku.rickandmortycharacters.ui.screens.characterScreenList.CharacterListViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
-import java.util.concurrent.TimeUnit
 
 val viewModelModule = module {
     viewModelOf(::CharacterListViewModel)
 }
 
 val repositoryModule = module {
-    single { CharacterRepository(get()) }
+    single { CharacterRepositoryImp(get()) }
 }
 
 val networkModule = module {
@@ -80,6 +78,4 @@ val networkModule = module {
                 cacheResolver = cacheKeyResolve
             ).build()
     }
-
-    single { ServerRequest(get()) }
 }

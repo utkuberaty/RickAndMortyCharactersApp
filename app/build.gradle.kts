@@ -55,6 +55,7 @@ android {
 apollo {
     service("service") {
         packageName.set("com.utku.rickandmortycharacters")
+        generateDataBuilders.set(true)
         introspection {
             endpointUrl.set("https://rickandmortyapi.com/graphql")
             schemaFile.set(file("src/main/graphql/schema.graphqls"))
@@ -79,7 +80,8 @@ dependencies {
     implementation(libs.apollo.normalized.cache)
     implementation(libs.apollo.normalized.cache.sqlite)
     implementation(libs.apollo.android.compose.paging)
-
+    testImplementation(libs.apollo.test.support)
+    
     //Okhttp
     implementation(libs.okhttp)
 
@@ -95,4 +97,5 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
 }

@@ -9,12 +9,12 @@ import com.apollographql.apollo3.ApolloCall
 import com.apollographql.apollo3.annotations.ApolloExperimental
 import com.apollographql.apollo3.compose.paging.Pager
 import com.utku.rickandmortycharacters.CharacterListQuery
-import com.utku.rickandmortycharacters.data.CharacterRepository
+import com.utku.rickandmortycharacters.data.CharacterRepositoryImp
 import com.utku.rickandmortycharacters.fragment.Character
 
 
 class CharacterListViewModel(
-    private val characterRepository: CharacterRepository
+    private val characterRepositoryIMp: CharacterRepositoryImp
 ) : ViewModel() {
 
     val pagingDataflow = createCharacterListPager()
@@ -31,7 +31,7 @@ class CharacterListViewModel(
                     // Reached the end of the list
                     return@Pager null
                 }
-                characterRepository.getCharacters(
+                characterRepositoryIMp.getCharacters(
                     response?.data?.characters?.info?.info?.next ?: 1
                 )
             },

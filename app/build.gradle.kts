@@ -80,7 +80,10 @@ dependencies {
     implementation(libs.apollo.normalized.cache.sqlite)
     implementation(libs.apollo.android.compose.paging)
 
-    //
+    //Okhttp
+    implementation(libs.okhttp)
+
+    //Coil
     implementation(libs.coil)
 
     //Koin

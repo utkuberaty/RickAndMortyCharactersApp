@@ -37,6 +37,8 @@ apollo-normalized-cache = { group = "com.apollographql.apollo3", name = "apollo-
 apollo-normalized-cache-sqlite = { group = "com.apollographql.apollo3", name = "apollo-normalized-cache-sqlite", version.ref = "apollo3" }
 apollo-android-compose-paging = { group = "com.apollographql.apollo3", name = "apollo-compose-paging-support", version.ref = "apollo3" }
 
+#okhttp
+okhttp = { group = "com.squareup.okhttp3", name = "logging-interceptor", version = "4.10.0" }
 #Coil
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 

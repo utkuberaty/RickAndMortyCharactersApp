@@ -1,32 +1,42 @@
-// SwipeableCardStack.kt
 package com.utku.rickandmortycharacters.ui.components.swipeableCard
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.lazy.layout.LazyLayout
 import androidx.compose.foundation.lazy.layout.LazyLayoutMeasureScope
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.MeasureResult
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.unit.Constraints
+import androidx.paging.compose.LazyPagingItems
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun <T> GenericLazyCardStack(
+fun <T : Any> GenericLazyCardStack(
     modifier: Modifier = Modifier,
-    items: List<T>,
-    content: @Composable (T) -> Unit
+    items: LazyPagingItems<T>,
+    content: @Composable BoxScope.(T?) -> Unit
 ) {
-    val lazyItemProvider = remember(items) { GenericCardStackItemProvider(items, content) }
-    val lazyCardStackState = remember(items) { LazyCardStackState() }
+    val lazyCardStackState = remember { LazyCardStackState() }
+    Log.i("GenericLazyCardStack", "items count: ${items.itemCount}")
     LazyLayout(
         modifier = modifier,
-        itemProvider = { lazyItemProvider },
+        itemProvider = { GenericCardStackItemProvider(lazyCardStackState, items, content) },
         measurePolicy = rememberCardStackMeasurePolicy(
-            itemCount = lazyItemProvider.itemCount,
+            itemCount = items.itemCount,
             state = lazyCardStackState,
         ),
     )
@@ -37,29 +47,35 @@ fun <T> GenericLazyCardStack(
 private fun rememberCardStackMeasurePolicy(
     itemCount: Int,
     state: LazyCardStackState
-): LazyLayoutMeasureScope.(Constraints) -> MeasureResult =
-    {
-        val placeables = mutableListOf<Placeable>()
-        val xOffset = state.offset.floatValue
-        for (index in 0 until itemCount) {
-            val placeable = measure(index, it)
-            placeables.add(placeable.first())
-        }
-        layout(it.maxWidth, it.maxHeight) {
-            // Reverse the order of placing, ensuring the first item is on top
-            placeables.asReversed().forEachIndexed { index, placeable ->
-                if (index == itemCount - 1 - state.topIndex) {
-                    placeable.placeRelative(x = xOffset.roundToInt(), y = 0)
-                } else {
-                    placeable.placeRelative(x = 0, y = 0)
-                }
+): LazyLayoutMeasureScope.(Constraints) -> MeasureResult = remember(itemCount, state) {
+    { constraints ->
+        // Define which items to measure based on the current state.
+        val topIndex = state.topIndex
+        val nextIndex = if (topIndex + 1 < itemCount) {
+            topIndex + 1
+        } else null  // Check bounds to avoid indexing errors.
+
+        val placeables = listOfNotNull(
+            nextIndex,
+            topIndex
+        ).mapNotNull { index ->
+            measure(index, constraints).firstOrNull()  // Safely measure each item if it exists.
+        }  // Remove any nulls in case of measurement issues.
+
+        // Layout the measured placeables, applying vertical offsets.
+        layout(constraints.maxWidth, constraints.maxHeight) {
+            placeables.forEachIndexed { index, placeable ->
+                placeable.placeRelative(x = 0, y = 0)
             }
         }
     }
+}
 
 class LazyCardStackState {
-    var topIndex = 0
-    var offset = mutableFloatStateOf(0f)
-    // Add more state handling as needed for animations and interactions
+    var topIndex by mutableIntStateOf(0)
+
+    fun swipeAwayTopItem() {
+        topIndex += 1  // Increment to update the top index, causing the next card to become the top one.
+    }
 }
 

@@ -12,13 +12,17 @@ import com.apollographql.apollo3.cache.normalized.api.TypePolicyCacheKeyGenerato
 import com.apollographql.apollo3.cache.normalized.logCacheMisses
 import com.apollographql.apollo3.cache.normalized.normalizedCache
 import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
+import com.apollographql.apollo3.network.okHttpClient
 import com.utku.rickandmortycharacters.BuildConfig
 import com.utku.rickandmortycharacters.data.CharacterRepository
 import com.utku.rickandmortycharacters.data.ServerRequest
 import com.utku.rickandmortycharacters.ui.screens.characterScreenList.CharacterListViewModel
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
+import java.util.concurrent.TimeUnit
 
 val viewModelModule = module {
     viewModelOf(::CharacterListViewModel)
@@ -56,10 +60,20 @@ val networkModule = module {
                 return (field.resolveArgument("id", variables) as String?)?.let { CacheKey(it) }
             }
         }
+
+        fun okHttpClient(): OkHttpClient {
+            val logging = HttpLoggingInterceptor()
+            if (BuildConfig.DEBUG) logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+            else logging.setLevel(HttpLoggingInterceptor.Level.HEADERS)
+            return OkHttpClient.Builder()
+                .addInterceptor(logging)
+                .build()
+        }
         ApolloClient
             .Builder()
             .serverUrl(BuildConfig.BASE_URL)
             .logCacheMisses()
+            .okHttpClient(okHttpClient())
             .normalizedCache(
                 normalizedCacheFactory = memoryCache,
                 cacheKeyGenerator = cacheKeyGenerator,

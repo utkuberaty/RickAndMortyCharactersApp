@@ -64,38 +64,44 @@ apollo {
 }
 
 dependencies {
+    implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.material3)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
 
-    //Apollo
-    implementation(libs.apollo.runtime)
-    implementation(libs.apollo.http.cahce)
+// Apollo
+    implementation(libs.apollo.android.compose.paging)
+    implementation(libs.apollo.http.cahce)  // Note: Misspelling here, should it be "cache"?
     implementation(libs.apollo.normalized.cache)
     implementation(libs.apollo.normalized.cache.sqlite)
-    implementation(libs.apollo.android.compose.paging)
+    implementation(libs.apollo.runtime)
     testImplementation(libs.apollo.test.support)
-    
-    //Okhttp
-    implementation(libs.okhttp)
 
-    //Coil
+// Coil
     implementation(libs.coil)
 
-    //Koin
+// Koin
     implementation(libs.koin.compose)
+
+// OkHttp
+    implementation(libs.okhttp)
+
+// Timber
+    implementation(libs.timber)
+
+// Testing Libraries
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+
+// Debug Libraries
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
 }

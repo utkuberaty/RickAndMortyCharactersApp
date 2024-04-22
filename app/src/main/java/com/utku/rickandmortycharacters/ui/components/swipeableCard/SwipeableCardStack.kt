@@ -20,6 +20,7 @@ import androidx.compose.ui.layout.MeasureResult
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.unit.Constraints
 import androidx.paging.compose.LazyPagingItems
+import timber.log.Timber
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -31,7 +32,7 @@ fun <T : Any> GenericLazyCardStack(
     content: @Composable BoxScope.(T?) -> Unit
 ) {
     val lazyCardStackState = remember { LazyCardStackState() }
-    Log.i("GenericLazyCardStack", "items count: ${items.itemCount}")
+    Timber.i("items count: " + items.itemCount)
     LazyLayout(
         modifier = modifier,
         itemProvider = { GenericCardStackItemProvider(lazyCardStackState, items, content) },

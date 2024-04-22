@@ -12,7 +12,7 @@ class CharacterRepositoryImp(
 
     override fun getCharacters(page: Int) = apolloClient.query(
         CharacterListQuery(page)
-    ).fetchPolicy(FetchPolicy.CacheAndNetwork)
+    ).fetchPolicy(FetchPolicy.NetworkOnly)
 }
 
 interface CharacterRepository {

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.lazy.layout.LazyLayoutItemProvider
 import androidx.compose.runtime.Composable
 import androidx.paging.compose.LazyPagingItems
+import timber.log.Timber
 
 @OptIn(ExperimentalFoundationApi::class)
 class GenericCardStackItemProvider<T : Any>(
@@ -21,7 +22,7 @@ class GenericCardStackItemProvider<T : Any>(
         SwipeCard(
             onSwipe = {
                 state.swipeAwayTopItem()
-                Log.i("onSwipe", "onSwipe completed")
+                Timber.i("onSwipe completed")
             },
             content = {
                 content(items[index])

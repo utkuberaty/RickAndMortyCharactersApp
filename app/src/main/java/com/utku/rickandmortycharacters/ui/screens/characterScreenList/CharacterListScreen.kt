@@ -37,50 +37,72 @@ import com.utku.rickandmortycharacters.ui.theme.CardBackgroundColors
 import org.koin.compose.koinInject
 import timber.log.Timber
 
+/**
+ * A controller composable that manages the character list UI by handling state and rendering
+ * the CharacterListScreen based on the ViewModel's data.
+ *
+ * @param modifier A [Modifier] applied to the CharacterListScreen composable.
+ * @param characterListViewModel The ViewModel that provides character data and state management.
+ */
 @Composable
 fun CharacterListScreenController(
     modifier: Modifier = Modifier,
     characterListViewModel: CharacterListViewModel = koinInject()
 ) {
+    // Collect paging data from the ViewModel and convert it to lazy paging items.
     val createCharacterListPager = characterListViewModel.pagingDataflow.collectAsLazyPagingItems()
+    // Remember and derive the current load state of the paging data.
     val state by remember {
         derivedStateOf { createCharacterListPager.loadState }
     }
+    // Track if there's an error in either the refresh or append load states.
     val isError by remember {
         derivedStateOf { state.refresh is LoadState.Error || state.append is LoadState.Error }
     }
+    // Log errors when they occur.
     LaunchedEffect(isError) {
         Timber.e("isError: $isError")
     }
 
+    // Render the character list screen with the paging items.
     CharacterListScreen(
         modifier = modifier,
         createCharacterListPager = createCharacterListPager,
     )
 }
 
+/**
+ * Displays a screen of swipeable cards for a list of characters.
+ *
+ * @param createCharacterListPager Lazy paging items for character data.
+ * @param modifier A [Modifier] applied to the GenericLazyCardStack composable.
+ */
 @Composable
 fun CharacterListScreen(
     createCharacterListPager: LazyPagingItems<Character>,
     modifier: Modifier = Modifier,
 ) {
+    // Display a stack of cards with characters using a lazy card stack layout.
     GenericLazyCardStack(
         modifier = modifier.background(
-            brush = Brush.linearGradient(BackGroundColors)
+            brush = Brush.linearGradient(BackGroundColors) // Apply a linear gradient background.
         ),
         items = createCharacterListPager,
     ) {
+        // Define the appearance and layout of each card.
         Card(
             modifier = Modifier.align(Alignment.Center),
             colors = CardDefaults.cardColors(containerColor = Color.Transparent),
             elevation = CardDefaults.elevatedCardElevation(defaultElevation = 1.dp)
         ) {
+            // Layout for the content of the card.
             Column(
                 modifier = Modifier.background(
-                    Brush.linearGradient(CardBackgroundColors)
+                    Brush.linearGradient(CardBackgroundColors) // Gradient background for each card.
                 ),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
+                // Display character image.
                 AsyncImage(
                     modifier = Modifier
                         .padding(10.dp)
@@ -88,6 +110,7 @@ fun CharacterListScreen(
                     model = it?.image,
                     contentDescription = "character image"
                 )
+                // Display character name.
                 Text(
                     text = it?.name ?: "",
                     fontSize = 15.sp,
@@ -95,6 +118,7 @@ fun CharacterListScreen(
                     fontFamily = FontFamily.Monospace,
                 )
                 Spacer(modifier = Modifier.padding(5.dp))
+                // Display character status with a colored dot and text.
                 Row(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     verticalAlignment = Alignment.CenterVertically
@@ -104,14 +128,8 @@ fun CharacterListScreen(
                             .size(10.dp)
                             .background(
                                 when (it?.status) {
-                                    "Alive" -> {
-                                        Color.Green
-                                    }
-
-                                    "Dead" -> {
-                                        Color.Red
-                                    }
-
+                                    "Alive" -> Color.Green
+                                    "Dead" -> Color.Red
                                     else -> Color(0xFF686766)
                                 },
                                 shape = CircleShape
@@ -124,6 +142,7 @@ fun CharacterListScreen(
                         fontFamily = FontFamily.Monospace
                     )
                 }
+                // Display location name of the character.
                 Text(
                     text = it?.location?.name ?: "",
                     fontSize = 14.sp,

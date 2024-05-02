@@ -9,7 +9,6 @@ import com.apollographql.apollo3.ApolloCall
 import com.apollographql.apollo3.annotations.ApolloExperimental
 import com.apollographql.apollo3.compose.paging.Pager
 import com.utku.rickandmortycharacters.CharacterListQuery
-import com.utku.rickandmortycharacters.data.CharacterRepository
 import com.utku.rickandmortycharacters.data.CharacterRepositoryImp
 import com.utku.rickandmortycharacters.fragment.Character
 
@@ -17,17 +16,16 @@ import com.utku.rickandmortycharacters.fragment.Character
  * ViewModel responsible for handling the character list UI logic.
  * This ViewModel retrieves character data from a repository and supports pagination using the Apollo GraphQL library.
  *
- * @param characterRepository The repository implementation used to fetch character data.
+ * @param characterRepositoryImp The repository implementation used to fetch character data.
  */
 class CharacterListViewModel(
-    private val characterRepository: CharacterRepository
+    private val characterRepositoryImp: CharacterRepositoryImp
 ) : ViewModel() {
 
     // The flow of paging data, which is cached within the ViewModel scope to survive configuration changes.
     val pagingDataflow = createCharacterListPager()
         .flow
         .cachedIn(viewModelScope)
-
 
     /**
      * Creates a pager that handles the loading of character data pages from the GraphQL API.
@@ -47,7 +45,7 @@ class CharacterListViewModel(
                     return@Pager null
                 }
                 // Fetch the next page using the character repository implementation.
-                characterRepository.getCharacters(
+                characterRepositoryImp.getCharacters(
                     response?.data?.characters?.info?.info?.next ?: 1
                 )
             },

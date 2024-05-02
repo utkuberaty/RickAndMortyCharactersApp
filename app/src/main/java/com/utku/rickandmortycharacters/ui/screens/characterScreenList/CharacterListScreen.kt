@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,7 +57,7 @@ fun CharacterListScreenController(
     }
     // Track if there's an error in either the refresh or append load states.
     val isError by remember {
-        mutableStateOf(state.refresh is LoadState.Error || state.append is LoadState.Error)
+        derivedStateOf { state.refresh is LoadState.Error || state.append is LoadState.Error }
     }
     // Log errors when they occur.
     LaunchedEffect(isError) {
